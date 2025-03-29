@@ -1,5 +1,96 @@
-<h1>SwimResults Helper Application</h1>
-<p>
-  This tool can be used by meeting organisers and result services to interact with their meeting in swimresults and provide data.
-</p>
+<sr-group-box boxTitle="Live Timing Controls">
+  <div class="form-field">
+    <label for="running_event">Running Heat:</label>
+    <input id="running_event" type="number" value="1">
+  </div>
+  <div class="form-field">
+    <label for="running_heat">Running Event:</label>
+    <input id="running_heat" type="number" value="1">
+  </div>
+  <div class="form-field">
+    <label for="running_heat_state">Running Heat State:</label>
+    <select id="running_heat_state">
+      <option value="0">INACTIVE</option>
+      <option value="1">STARTING</option>
+      <option value="2">RUNNING</option>
+    </select>
+  </div>
+
+  <br>
+
+  <div class="live-timing-control">
+    <button>Start</button>
+    <button>Stop</button>
+    <span class="status-box success">RUNNING</span>
+  </div>
+</sr-group-box>
+
+<sr-group-box boxTitle="Live Timing Settings">
+
+  <b>UDP</b>
+
+  <div class="form-field">
+    <label for="udp_port">Port:</label>
+    <input id="udp_port" type="number" value="26">
+  </div>
+
+  <div class="form-field">
+    <label for="udp_address">Address:</label>
+    <input id="udp_address" type="text" value="127.1.1.255">
+  </div>
+
+  <hr>
+
+  <b>SwimResults</b>
+
+  <div class="form-field">
+    <label for="sr_server">Server:</label>
+    <input id="sr_server" type="text" value="https://api.swimresults.de">
+  </div>
+
+  <div class="form-field">
+    <label for="sr_password">Password:</label>
+    <input id="sr_password" type="password">
+  </div>
+</sr-group-box>
+
+<sr-group-box boxTitle="Live Timing">
+  <div>
+    <span>Event 14</span>
+    <span>Heat 1/4</span>
+    <span class="status-box success">RUNNING</span>
+    <span class="status-box">00:03,73</span>
+  </div>
+  <table>
+    <tr>
+      <th>&nbsp;</th>
+      <th>Lane 1</th>
+      <th>Lane 2</th>
+      <th>Lane 3</th>
+      <th>Lane 4</th>
+    </tr>
+    <tr>
+      <td>50m</td>
+      <td>0:29,28</td>
+      <td>0:30,19</td>
+      <td>0:31,55</td>
+      <td>0:27,97</td>
+    </tr>
+    <tr>
+      <td>100m</td>
+      <td>1:01,34</td>
+      <td>1:02,16</td>
+      <td>1:03,17</td>
+      <td>0:59,02</td>
+    </tr>
+  </table>
+
+  <br>
+
+  <div>
+    <span>ALGE:</span>
+    <span class="status-box error">DISCONNECTED</span>
+  </div>
+</sr-group-box>
+
 <router-outlet></router-outlet>

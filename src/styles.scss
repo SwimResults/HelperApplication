@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --color-bg: #f0f0f0;
+}
+
+body {
+  background-color: var(--color-bg);
+  font-family: "Microsoft Sans Serif", sans-serif;
+  font-size: 14px;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid gray;
+}
