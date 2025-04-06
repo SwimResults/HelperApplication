@@ -19,8 +19,18 @@
   <br>
 
   <div class="live-timing-control">
-    <button>Start</button>
-    <button>Stop</button>
+    <b>Alge:</b>
+    <button [disabled]="udpActive" (click)="startUdp()">Start</button>
+    <button [disabled]="!udpActive || livetimingActive" (click)="stopUdp()">Stop</button>
+    <span class="status-box success">RUNNING</span>
+  </div>
+
+  <br>
+
+  <div class="live-timing-control">
+    <b>Live Timing:</b>
+    <button [disabled]="!udpActive || livetimingActive" (click)="startLiveTiming()">Start</button>
+    <button [disabled]="!livetimingActive" (click)="stopLiveTiming()">Stop</button>
     <span class="status-box success">RUNNING</span>
   </div>
 </sr-group-box>
@@ -31,12 +41,12 @@
 
   <div class="form-field">
     <label for="udp_port">Port:</label>
-    <input id="udp_port" type="number" value="26">
+    <input [disabled]="udpActive" id="udp_port" type="number" value="26">
   </div>
 
   <div class="form-field">
     <label for="udp_address">Address:</label>
-    <input id="udp_address" type="text" value="127.1.1.255">
+    <input [disabled]="udpActive" id="udp_address" type="text" value="127.1.1.255">
   </div>
 
   <hr>
@@ -45,13 +55,14 @@
 
   <div class="form-field">
     <label for="sr_server">Server:</label>
-    <input id="sr_server" type="text" value="https://api.swimresults.de">
+    <input [disabled]="livetimingActive" id="sr_server" type="text" value="https://api.swimresults.de">
   </div>
 
   <div class="form-field">
     <label for="sr_password">Password:</label>
-    <input id="sr_password" type="password">
+    <input [disabled]="livetimingActive" id="sr_password" type="password">
   </div>
+  <button [disabled]="livetimingActive" class="btn-right">Save</button>
 </sr-group-box>
 
 <sr-group-box boxTitle="Live Timing">
@@ -92,5 +103,9 @@
     <span class="status-box error">DISCONNECTED</span>
   </div>
 </sr-group-box>
+
+<div>
+  <p>{{electronInfo()}}</p>
+</div>
 
 <router-outlet></router-outlet>

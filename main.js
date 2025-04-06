@@ -1,12 +1,16 @@
-const { app, BrowserWindow } = require('electron/main')
+const {app, BrowserWindow} = require('electron/main')
 const path = require('node:path')
 
-function createWindow () {
+function createWindow() {
+  console.log('createWindow');
+
   const win = new BrowserWindow({
     width: 800,
     height: 600,
     icon: `file://${__dirname}/dist/assets/logo.png`,
     webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
       preload: path.join(__dirname, 'electron/preload.js')
     }
   })

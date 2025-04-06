@@ -11,13 +11,17 @@
 
 .live-timing-control {
   display: grid;
-  grid-template-columns: 70px 70px auto;
+  grid-template-columns: 80px 70px 70px auto;
   grid-gap: 6px;
   align-items: center;
 
   button {
     height: 30px;
     width: 70px;
+  }
+
+  .status-box {
+    text-align: right;
   }
 }
 
@@ -66,4 +70,9 @@ td, th {
   select {
     float: right;
   }
+}
+
+.btn-right {
+  width: 50px;
+  margin-left: calc(100% - 50px);
 }
