@@ -15,7 +15,7 @@ function createWindow() {
     }
   })
 
-  win.loadURL(`file://${__dirname}/dist/swim-results-helper-application/browser/index.html`)
+  win.loadURL(`file://${__dirname}/dist/swim-results-helper-application/index.html`)
 
   win.webContents.openDevTools()
 }

@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 import {ipcRenderer, webFrame} from 'electron';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
-import dgram from 'dgram';
+import * as dgram from 'node:dgram';
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +60,7 @@ export class ElectronService {
   startUdpListener() {
     this.dgram = (window as any).require('node:dgram')
 
-    this.socket = dgram.createSocket({ type: 'udp4', reuseAddr: true });
+    this.socket = this.dgram.createSocket({ type: 'udp4', reuseAddr: true });
     let socket = this.socket;
     this.socket.on('message', function (msg, info){
       console.log(msg.toString());
