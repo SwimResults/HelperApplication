@@ -6,6 +6,8 @@ import {ipcRenderer, webFrame} from 'electron';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
 import * as dgram from 'node:dgram';
+import {AlgeService} from './alge.service';
+import {finalize} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,9 @@ export class ElectronService {
   dgram!: typeof dgram;
   socket!: dgram.Socket;
 
-  constructor() {
+  constructor(
+    private algeService: AlgeService
+  ) {
     // Conditional imports
     if (this.isElectron) {
       this.ipcRenderer = (window as any).require('electron').ipcRenderer;
@@ -54,16 +58,19 @@ export class ElectronService {
   }
 
   stopUdpListener() {
-    this.socket.disconnect();
+    this.socket.close();
+    this.algeService.setUdpActive(false);
   }
 
-  startUdpListener() {
+  startUdpListener(port: number, address: string) {
     this.dgram = (window as any).require('node:dgram')
 
     this.socket = this.dgram.createSocket({ type: 'udp4', reuseAddr: true });
     let socket = this.socket;
-    this.socket.on('message', function (msg, info){
+    this.socket.on('message', (msg, info) => {
+      console.log("log");
       console.log(msg.toString());
+      this.processMessage(msg.toString());
     });
 
     this.socket.on('listening', () => {
@@ -71,7 +78,22 @@ export class ElectronService {
       console.log("listening on :" + address.address + ":" + address.port);
     });
 
-    this.socket.bind(26);
+    try {
+      this.socket.bind(port, address, () => {
+        console.log("callback")
+        this.algeService.setUdpActive(true);
+      });
+    } catch (e) {
+      console.log("binding port failed")
+      console.log(e)
+      return;
+    }
+
+  }
+
+  processMessage(msg: string) {
+    console.log("send to alge service")
+    this.algeService.sendMessage(msg);
   }
 
   get isElectron(): boolean {
