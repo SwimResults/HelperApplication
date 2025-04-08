@@ -4,12 +4,14 @@ import {GroupBoxComponent} from './layout/group-box/group-box.component';
 import {ElectronService} from './core/service/electron.service';
 import {AlgeService} from './core/service/alge.service';
 import {Subscription} from 'rxjs';
-import {NgForOf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {CurrentHeat} from './core/model/current.heat';
+import {ConnectionState, State} from './core/model/state.model';
+import {AlgeTimePipe} from './core/pipe/alge-time.pipe';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, GroupBoxComponent, NgForOf, FormsModule],
+  imports: [RouterOutlet, GroupBoxComponent, FormsModule, AlgeTimePipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   standalone: true
@@ -20,9 +22,17 @@ export class AppComponent {
   messageSubscription: Subscription;
   udpActiveSubscription: Subscription;
   liveTimingActiveSubscription: Subscription;
+  currentHeatSubscription: Subscription;
+  stateSubscription: Subscription;
+  algeStateSubscription: Subscription;
 
   udpActive: boolean = false;
   liveTimingActive: boolean = false;
+
+  currentHeat: CurrentHeat = {} as CurrentHeat;
+  state: State = State.NOT_RUNNING;
+  algeState: ConnectionState = ConnectionState.DISCONNECTED;
+  srState: ConnectionState = ConnectionState.DISCONNECTED;
 
   messages: string[] = [];
 
@@ -46,6 +56,18 @@ export class AppComponent {
     this.liveTimingActiveSubscription = this.algeService.liveTimingActive.subscribe(state => {
       this.liveTimingActive = state;
     })
+
+    this.currentHeatSubscription = this.algeService.currentHeat.subscribe(heat => {
+      this.currentHeat = heat;
+    })
+
+    this.stateSubscription = this.algeService.state.subscribe(state => {
+      this.state = state;
+    })
+
+    this.algeStateSubscription = this.algeService.algeState.subscribe(state => {
+      this.algeState = state;
+    })
   }
 
   startUdp() {
@@ -57,7 +79,7 @@ export class AppComponent {
   }
 
   startLiveTiming() {
-    this.algeService.setLiveTimingActive(true);
+    this.algeService.setLiveTimingActive(true, this.currentHeat);
   }
 
   stopLiveTiming() {
@@ -72,4 +94,30 @@ export class AppComponent {
   saveConfig() {
 
   }
+
+  getClassForState(state: State): string {
+    switch (state) {
+      case State.NOT_RUNNING:
+        return "error"
+      case State.READY:
+        return "warn"
+      case State.RUNNING:
+        return "success"
+      default:
+        return "info";
+    }
+  }
+
+  getClassForConnectionState(state: ConnectionState): string {
+    switch (state) {
+      case ConnectionState.CONNECTED:
+        return "success"
+      case ConnectionState.DISCONNECTED:
+        return "error"
+      default:
+        return "info";
+    }
+  }
+
+  protected readonly State = State;
 }

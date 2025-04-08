@@ -50,6 +50,16 @@
   }
 }
 
+.live-status {
+  display: grid;
+  grid-template-columns: calc((100% - 70px) / 2) 70px calc((100% - 70px) / 2);
+  font-weight: bolder;
+
+  :last-child {
+    text-align: right;
+  }
+}
+
 table {
   background-color: white;
   border-collapse: collapse;
@@ -75,4 +85,12 @@ td, th {
 .btn-right {
   width: 50px;
   margin-left: calc(100% - 50px);
+}
+
+.connection-status {
+  display: grid;
+  grid-template-columns: 94px auto 1fr;
+  &::after {
+    content: ''
+  }
 }

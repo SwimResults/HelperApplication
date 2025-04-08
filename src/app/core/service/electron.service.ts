@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
 
 // If you import a module but never use any of the imported values other than as TypeScript types,
 // the resulting javascript file will look as if you never imported the module at all.
@@ -7,7 +7,6 @@ import * as childProcess from 'child_process';
 import * as fs from 'fs';
 import * as dgram from 'node:dgram';
 import {AlgeService} from './alge.service';
-import {finalize} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +20,8 @@ export class ElectronService {
   socket!: dgram.Socket;
 
   constructor(
-    private algeService: AlgeService
+    private algeService: AlgeService,
+    private ngZone: NgZone
   ) {
     // Conditional imports
     if (this.isElectron) {
@@ -81,7 +81,9 @@ export class ElectronService {
     try {
       this.socket.bind(port, address, () => {
         console.log("callback")
-        this.algeService.setUdpActive(true);
+        this.ngZone.run(() => {
+          this.algeService.setUdpActive(true);
+        });
       });
     } catch (e) {
       console.log("binding port failed")
@@ -93,7 +95,10 @@ export class ElectronService {
 
   processMessage(msg: string) {
     console.log("send to alge service")
-    this.algeService.sendMessage(msg);
+    this.ngZone.run(() => {
+      this.algeService.sendMessage(msg);
+      this.algeService.processUdpMessage(msg);
+    })
   }
 
   get isElectron(): boolean {
