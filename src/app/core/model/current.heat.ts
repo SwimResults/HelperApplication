@@ -13,5 +13,5 @@ export interface Competitor {
   last_name: string;
   team: string;
   lap: number;
-  splits: number[];
+  splits: Map<number, number>;
 }

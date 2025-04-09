@@ -55,7 +55,7 @@ export class AlgeService {
           this.currentHeatSubject.value.runningTime = Number(fields[3]);
           if (this.stateSubject.value != State.RUNNING && +fields[3] >= 0) {
             this.stateSubject.next(State.RUNNING);
-            this.currentHeatSubject.value.competitors.forEach(c => {c.splits = []; c.lap = 0;})
+            this.currentHeatSubject.value.competitors.forEach(c => {c.splits = new Map<number, number>(); c.lap = 0;})
           }
           if (+fields[3] <= -1) {
             this.stateSubject.next(State.NOT_RUNNING);
@@ -64,14 +64,14 @@ export class AlgeService {
 
         if (fields[2] === "Ready" && this.stateSubject.value != State.READY) {
           this.stateSubject.next(State.READY);
-          this.currentHeatSubject.value.competitors.forEach(c => {c.splits = []; c.lap = 0;})
+          this.currentHeatSubject.value.competitors.forEach(c => {c.splits = new Map<number, number>(); c.lap = 0;})
         }
 
         if (fields[2] === "LaneTime" && +fields[3] > 0) {
           let lane = Number(fields[1]);
           let c = this.getOrCreateCompetitor(lane);
           c.lap = Number(fields[9].split(".")[0]);
-          c.splits.push(Number(fields[3]));
+          c.splits.set(c.lap, Number(fields[3]));
         }
         break;
       case "Event":
@@ -120,7 +120,7 @@ export class AlgeService {
         last_name: "",
         team: "",
         lap: 0,
-        splits: []
+        splits: new Map<number, number>()
       } as Competitor);
     }
     return this.currentHeatSubject.value.competitors.get(lane)!;

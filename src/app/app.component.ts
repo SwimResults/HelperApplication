@@ -120,4 +120,12 @@ export class AppComponent {
   }
 
   protected readonly State = State;
+
+  getAvailableMeters(): number[] {
+    return Array.from(new Set(Array.from(this.currentHeat.competitors.values()).map(c => {
+      return Array.from(c.splits.keys());
+    }).reduce((acc, curr) => {
+      return acc.concat(curr);
+    }))).sort();
+  }
 }

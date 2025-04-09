@@ -80,7 +80,9 @@
       <th>Name</th>
       <th>Team</th>
       <th>Lap</th>
-      <th>Times</th>
+      @for (meter of getAvailableMeters(); track meter) {
+        <th>Time {{meter}}m</th>
+      }
     </tr>
     @for (competitor of currentHeat.competitors.values(); track competitor) {
       <tr>
@@ -88,8 +90,12 @@
         <td>{{competitor.first_name + " " + competitor.last_name}}</td>
         <td>{{competitor.team}}</td>
         <td>{{competitor.lap}}</td>
-        @for (time of competitor.splits; track time) {
-          <td>{{time | algeTime}}</td>
+        @for (meter of getAvailableMeters(); track meter) {
+          @if (competitor.splits.has(meter)) {
+            <td>{{competitor.splits.get(meter)! | algeTime}}</td>
+          } @else {
+            <td></td>
+          }
         }
       </tr>
     }
@@ -108,14 +114,16 @@
 </sr-group-box>
 
 <div>
-  <ul>
+  <details>
+    <summary>Log</summary>
+    <ul>
 
-    @for (message of messages; track message) {
-      <li>{{message}}</li>
-    }
+      @for (message of messages; track message) {
+        <li>{{message}}</li>
+      }
 
-  </ul>
-  <p>{{electronInfo()}}</p>
+    </ul>
+  </details>
 </div>
 
 <router-outlet></router-outlet>
