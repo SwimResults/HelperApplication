@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, ReplaySubject, Subject, switchMap, timer} from 'rxjs';
 import {Competitor, CurrentHeatModel} from '../model/current-heat.model';
 import {ConnectionState, State} from '../model/state.model';
+import {ImportService} from './import.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class AlgeService {
     event: 0,
     heat: 0,
     distance: 0,
+    laps: 0,
     runningTime: -1,
     competitors: new Map<number, Competitor>()
   } as CurrentHeatModel);
@@ -31,12 +33,12 @@ export class AlgeService {
   private pingSubject = new Subject<void>();
 
   constructor(
+    private importService: ImportService
   ) {
     this.setupTimeoutCheck();
   }
 
   sendMessage(msg: string) {
-    console.log("send message")
     this.messageSubject.next(msg);
   }
 
@@ -52,7 +54,8 @@ export class AlgeService {
           this.currentHeatSubject.value.runningTime = Number(fields[3]);
           if (this.stateSubject.value != State.RUNNING && +fields[3] >= 0) {
             this.stateSubject.next(State.RUNNING);
-            this.currentHeatSubject.value.competitors.forEach(c => {c.splits = new Map<number, number>(); c.lap = 0;})
+            this.currentHeatSubject.value.competitors.forEach(c => {c.splits = new Map<number, number>(); c.lapM = 0;})
+            this.importService.startHeat(this.currentHeatSubject.value.event, this.currentHeatSubject.value.heat);
           }
           if (+fields[3] <= -1) {
             this.stateSubject.next(State.NOT_RUNNING);
@@ -61,14 +64,18 @@ export class AlgeService {
 
         if (fields[2] === "Ready" && this.stateSubject.value != State.READY) {
           this.stateSubject.next(State.READY);
-          this.currentHeatSubject.value.competitors.forEach(c => {c.splits = new Map<number, number>(); c.lap = 0;})
+          this.currentHeatSubject.value.competitors.forEach(c => {c.splits = new Map<number, number>(); c.lapM = 0;})
+          this.importService.stopHeat(this.currentHeatSubject.value.event, this.currentHeatSubject.value.heat);
         }
 
         if (fields[2] === "LaneTime" && +fields[3] > 0) {
           let lane = Number(fields[1]);
           let c = this.getOrCreateCompetitor(lane);
-          c.lap = Number(fields[9].split(".")[0]);
-          c.splits.set(c.lap, Number(fields[3]));
+          c.lap = Number(fields[7]);
+          c.lapM = Number(fields[9].split(".")[0]);
+          c.splits.set(c.lapM, Number(fields[3]));
+
+          this.importService.laneTime(lane, Number(fields[3]), c.lapM, c.lap === this.currentHeatSubject.value.laps);
         }
         break;
       case "Event":
@@ -85,6 +92,9 @@ export class AlgeService {
         }
         if (fields[1] === "DistanceM") {
           this.currentHeatSubject.value.distance = Number(fields[2]);
+        }
+        if (fields[1] === "Laps") {
+          this.currentHeatSubject.value.laps = Number(fields[2]);
         }
         break;
       case "Meet":
@@ -117,6 +127,7 @@ export class AlgeService {
         last_name: "",
         team: "",
         lap: 0,
+        lapM: 0,
         splits: new Map<number, number>()
       } as Competitor);
     }

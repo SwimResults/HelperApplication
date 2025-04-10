@@ -39,7 +39,7 @@ export class AppComponent {
   algeState: ConnectionState = ConnectionState.DISCONNECTED;
 
   importConfig: ImportConfig = {} as ImportConfig;
-  srState: ConnectionState = ConnectionState.DISCONNECTED;
+  srState: ConnectionState | string = ConnectionState.DISCONNECTED;
 
   messages: string[] = [];
 
@@ -52,8 +52,6 @@ export class AppComponent {
     private importService: ImportService
   ) {
     this.messageSubscription = this.algeService.message.subscribe(msg => {
-      console.log("received message update:")
-      console.log(msg)
       this.messages = [msg, ...this.messages];
     })
 
@@ -129,9 +127,11 @@ export class AppComponent {
     }
   }
 
-  getClassForConnectionState(state: ConnectionState): string {
+  getClassForConnectionState(state: ConnectionState | string): string {
     switch (state) {
       case ConnectionState.CONNECTED:
+        return "success"
+      case "OK":
         return "success"
       case ConnectionState.DISCONNECTED:
         return "error"
@@ -143,6 +143,7 @@ export class AppComponent {
   protected readonly State = State;
 
   getAvailableMeters(): number[] {
+    if (!this.currentHeat.competitors || this.currentHeat.competitors.size <= 0) return [];
     return Array.from(new Set(Array.from(this.currentHeat.competitors.values()).map(c => {
       return Array.from(c.splits.keys());
     }).reduce((acc, curr) => {

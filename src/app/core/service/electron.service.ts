@@ -68,8 +68,6 @@ export class ElectronService {
     this.socket = this.dgram.createSocket({ type: 'udp4', reuseAddr: true });
     let socket = this.socket;
     this.socket.on('message', (msg, info) => {
-      console.log("log");
-      console.log(msg.toString());
       this.processMessage(msg.toString());
     });
 
@@ -80,7 +78,6 @@ export class ElectronService {
 
     try {
       this.socket.bind(port, address, () => {
-        console.log("callback")
         this.ngZone.run(() => {
           this.algeService.setUdpActive(true);
         });

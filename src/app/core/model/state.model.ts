@@ -6,5 +6,6 @@ export enum State {
 
 export enum ConnectionState {
   CONNECTED = "CONNECTED",
-  DISCONNECTED = "DISCONNECTED"
+  DISCONNECTED = "DISCONNECTED",
+  ERROR = "ERROR"
 }

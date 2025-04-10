@@ -79,6 +79,7 @@
       <th>&nbsp;</th>
       <th>Name</th>
       <th>Team</th>
+      <th>Meters</th>
       <th>Lap</th>
       @for (meter of getAvailableMeters(); track meter) {
         <th>Time {{meter}}m</th>
@@ -89,6 +90,7 @@
         <td>{{competitor.lane}}</td>
         <td>{{competitor.first_name + " " + competitor.last_name}}</td>
         <td>{{competitor.team}}</td>
+        <td>{{competitor.lapM}}</td>
         <td>{{competitor.lap}}</td>
         @for (meter of getAvailableMeters(); track meter) {
           @if (competitor.splits.has(meter)) {
