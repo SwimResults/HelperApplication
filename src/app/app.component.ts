@@ -5,9 +5,11 @@ import {ElectronService} from './core/service/electron.service';
 import {AlgeService} from './core/service/alge.service';
 import {Subscription} from 'rxjs';
 import {FormsModule} from '@angular/forms';
-import {CurrentHeat} from './core/model/current.heat';
+import {CurrentHeatModel} from './core/model/current-heat.model';
 import {ConnectionState, State} from './core/model/state.model';
 import {AlgeTimePipe} from './core/pipe/alge-time.pipe';
+import {ImportService} from './core/service/import.service';
+import {ImportConfig} from './core/model/import-config.model';
 
 @Component({
   selector: 'app-root',
@@ -21,17 +23,22 @@ export class AppComponent {
 
   messageSubscription: Subscription;
   udpActiveSubscription: Subscription;
-  liveTimingActiveSubscription: Subscription;
   currentHeatSubscription: Subscription;
   stateSubscription: Subscription;
   algeStateSubscription: Subscription;
 
+  liveTimingActiveSubscription: Subscription;
+  importConfigSubscription: Subscription;
+  srStateSubscription: Subscription;
+
   udpActive: boolean = false;
   liveTimingActive: boolean = false;
 
-  currentHeat: CurrentHeat = {} as CurrentHeat;
+  currentHeat: CurrentHeatModel = {} as CurrentHeatModel;
   state: State = State.NOT_RUNNING;
   algeState: ConnectionState = ConnectionState.DISCONNECTED;
+
+  importConfig: ImportConfig = {} as ImportConfig;
   srState: ConnectionState = ConnectionState.DISCONNECTED;
 
   messages: string[] = [];
@@ -41,7 +48,8 @@ export class AppComponent {
 
   constructor(
     private electronService: ElectronService,
-    private algeService: AlgeService
+    private algeService: AlgeService,
+    private importService: ImportService
   ) {
     this.messageSubscription = this.algeService.message.subscribe(msg => {
       console.log("received message update:")
@@ -51,10 +59,6 @@ export class AppComponent {
 
     this.udpActiveSubscription = this.algeService.udpActive.subscribe(state => {
       this.udpActive = state;
-    })
-
-    this.liveTimingActiveSubscription = this.algeService.liveTimingActive.subscribe(state => {
-      this.liveTimingActive = state;
     })
 
     this.currentHeatSubscription = this.algeService.currentHeat.subscribe(heat => {
@@ -68,6 +72,20 @@ export class AppComponent {
     this.algeStateSubscription = this.algeService.algeState.subscribe(state => {
       this.algeState = state;
     })
+
+    // ---
+
+    this.liveTimingActiveSubscription = this.importService.liveTimingActive.subscribe(state => {
+      this.liveTimingActive = state;
+    })
+
+    this.srStateSubscription = this.importService.srState.subscribe(state => {
+      this.srState = state;
+    })
+
+    this.importConfigSubscription = this.importService.config.subscribe(config => {
+      this.importConfig = config;
+    })
   }
 
   startUdp() {
@@ -79,11 +97,14 @@ export class AppComponent {
   }
 
   startLiveTiming() {
-    this.algeService.setLiveTimingActive(true, this.currentHeat);
+    if (this.currentHeat) {
+      this.algeService.setCurrentHeat(this.currentHeat);
+    }
+    this.importService.setLiveTimingActive(true);
   }
 
   stopLiveTiming() {
-    this.algeService.setLiveTimingActive(false);
+    this.importService.setLiveTimingActive(false);
 
   }
 
@@ -92,7 +113,7 @@ export class AppComponent {
   }
 
   saveConfig() {
-
+    this.importService.saveConfig(this.importConfig);
   }
 
   getClassForState(state: State): string {

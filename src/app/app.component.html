@@ -55,12 +55,12 @@
 
   <div class="form-field">
     <label for="sr_server">Server:</label>
-    <input [disabled]="liveTimingActive" id="sr_server" type="text" value="https://api.swimresults.de">
+    <input [disabled]="liveTimingActive" id="sr_server" type="text" [(ngModel)]="importConfig.apiUrl">
   </div>
 
   <div class="form-field">
     <label for="sr_password">Password:</label>
-    <input [disabled]="liveTimingActive" id="sr_password" type="password">
+    <input [disabled]="liveTimingActive" id="sr_password" type="password" [(ngModel)]="importConfig.password">
   </div>
   <button [disabled]="liveTimingActive" class="btn-right" (click)="saveConfig()">Save</button>
 </sr-group-box>

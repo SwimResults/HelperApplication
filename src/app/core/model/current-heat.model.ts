@@ -1,4 +1,4 @@
-export interface CurrentHeat {
+export interface CurrentHeatModel {
   event: number;
   heat: number;
   distance: number;

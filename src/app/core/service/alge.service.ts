@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, ReplaySubject, Subject, switchMap, timer} from 'rxjs';
-import {Competitor, CurrentHeat} from '../model/current.heat';
+import {Competitor, CurrentHeatModel} from '../model/current-heat.model';
 import {ConnectionState, State} from '../model/state.model';
 
 @Injectable({
@@ -10,19 +10,16 @@ export class AlgeService {
   private messageSubject = new ReplaySubject<string>();
   public message = this.messageSubject.asObservable();
 
-  private liveTimingActiveSubject = new ReplaySubject<boolean>();
-  public liveTimingActive = this.liveTimingActiveSubject.asObservable();
-
   private udpActiveSubject = new ReplaySubject<boolean>();
   public udpActive = this.udpActiveSubject.asObservable();
 
-  private currentHeatSubject = new BehaviorSubject<CurrentHeat>({
+  private currentHeatSubject = new BehaviorSubject<CurrentHeatModel>({
     event: 0,
     heat: 0,
     distance: 0,
     runningTime: -1,
     competitors: new Map<number, Competitor>()
-  } as CurrentHeat);
+  } as CurrentHeatModel);
   public currentHeat = this.currentHeatSubject.asObservable();
 
   private stateSubject = new BehaviorSubject<State>(State.NOT_RUNNING);
@@ -135,10 +132,8 @@ export class AlgeService {
     this.udpActiveSubject.next(active);
   }
 
-  setLiveTimingActive(active: boolean, runningHeat?: CurrentHeat) {
-    if (runningHeat)
-      this.currentHeatSubject.next(runningHeat);
-    this.liveTimingActiveSubject.next(active);
+  setCurrentHeat(runningHeat: CurrentHeatModel) {
+    this.currentHeatSubject.next(runningHeat);
   }
 
   private setupTimeoutCheck() {
