@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, PartialObserver, ReplaySubject, throwError} from 'rxjs';
+import {BehaviorSubject, Observable, PartialObserver, throwError} from 'rxjs';
 import {ImportConfig} from '../model/import-config.model';
 import {ConnectionState} from '../model/state.model';
 import {HttpClient} from '@angular/common/http';
@@ -38,7 +38,7 @@ export class ImportService {
   }
 
   post(url: string, data: any): Observable<any> {
-    return this.httpClient.post(url, data);
+    return this.httpClient.post(url, data, { responseType: "text" });
   }
 
   sendData(data: any): Observable<string> {
@@ -61,7 +61,12 @@ export class ImportService {
       'heat': heat
     }
 
-    this.sendData(json).subscribe(this.handleResponse)
+    this.sendData(json).subscribe({
+      next: value => {
+        console.log("response: " + value);
+        this.srStateSubject.next(value);
+      }
+    })
   }
 
   laneTime(lane: number, time: number, meter: number, done: boolean) {
@@ -96,7 +101,7 @@ export class ImportService {
       console.log("response: " + value);
       this.srStateSubject.next(value);
     },
-    error: err => {
+    error: _ => {
       this.srStateSubject.next(ConnectionState.DISCONNECTED);
     }
   }

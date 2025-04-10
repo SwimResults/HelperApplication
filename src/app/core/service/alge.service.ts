@@ -55,6 +55,7 @@ export class AlgeService {
           if (this.stateSubject.value != State.RUNNING && +fields[3] >= 0) {
             this.stateSubject.next(State.RUNNING);
             this.currentHeatSubject.value.competitors.forEach(c => {c.splits = new Map<number, number>(); c.lapM = 0;})
+
             this.importService.startHeat(this.currentHeatSubject.value.event, this.currentHeatSubject.value.heat);
           }
           if (+fields[3] <= -1) {
@@ -64,7 +65,8 @@ export class AlgeService {
 
         if (fields[2] === "Ready" && this.stateSubject.value != State.READY) {
           this.stateSubject.next(State.READY);
-          this.currentHeatSubject.value.competitors.forEach(c => {c.splits = new Map<number, number>(); c.lapM = 0;})
+          this.currentHeatSubject.value.competitors.forEach(c => {c.first_name = ""; c.last_name = ""; c.team = ""; c.lap = 0; c.lapM = 0; c.splits = new Map<number, number>();})
+
           this.importService.stopHeat(this.currentHeatSubject.value.event, this.currentHeatSubject.value.heat);
         }
 

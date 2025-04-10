@@ -1,14 +1,14 @@
-<sr-group-box boxTitle="Live Timing Controls">
+<sr-group-box boxTitle="{{'LIVETIMING_CONTROLS.TITLE' | translate}}">
   <div class="form-field">
-    <label for="running_event">Running Heat:</label>
+    <label for="running_event">{{'LIVETIMING_CONTROLS.RUNNING_HEAT' | translate}}:</label>
     <input id="running_event" type="number" [(ngModel)]="currentHeat.heat">
   </div>
   <div class="form-field">
-    <label for="running_heat">Running Event:</label>
+    <label for="running_heat">{{"LIVETIMING_CONTROLS.RUNNING_EVENT" | translate}}:</label>
     <input id="running_heat" type="number" [(ngModel)]="currentHeat.event">
   </div>
   <div class="form-field">
-    <label for="running_heat_state">Running Heat State:</label>
+    <label for="running_heat_state">{{"LIVETIMING_CONTROLS.RUNNING_HEAT_STATE" | translate}}:</label>
     <select id="running_heat_state" [(ngModel)]="state">
       <option value="NOT_RUNNING">NOT_RUNNING</option>
       <option value="READY">READY</option>
@@ -85,7 +85,7 @@
         <th>Time {{meter}}m</th>
       }
     </tr>
-    @for (competitor of currentHeat.competitors.values(); track competitor) {
+    @for (competitor of getCompetitorsSorted(); track competitor) {
       <tr>
         <td>{{competitor.lane}}</td>
         <td>{{competitor.first_name + " " + competitor.last_name}}</td>

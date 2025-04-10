@@ -5,15 +5,16 @@ import {ElectronService} from './core/service/electron.service';
 import {AlgeService} from './core/service/alge.service';
 import {Subscription} from 'rxjs';
 import {FormsModule} from '@angular/forms';
-import {CurrentHeatModel} from './core/model/current-heat.model';
+import {Competitor, CurrentHeatModel} from './core/model/current-heat.model';
 import {ConnectionState, State} from './core/model/state.model';
 import {AlgeTimePipe} from './core/pipe/alge-time.pipe';
 import {ImportService} from './core/service/import.service';
 import {ImportConfig} from './core/model/import-config.model';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, GroupBoxComponent, FormsModule, AlgeTimePipe],
+  imports: [RouterOutlet, GroupBoxComponent, FormsModule, AlgeTimePipe, TranslatePipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   standalone: true
@@ -149,5 +150,11 @@ export class AppComponent {
     }).reduce((acc, curr) => {
       return acc.concat(curr);
     }))).sort();
+  }
+
+  getCompetitorsSorted(): Competitor[] {
+    return Array.from(this.currentHeat.competitors.values()).sort((a, b) => {
+      return a.lane - b.lane;
+    });
   }
 }

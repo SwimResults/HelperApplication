@@ -1,0 +1,8 @@
+{
+  "LIVETIMING_CONTROLS": {
+    "RUNNING_HEAT": "Aktueller Lauf",
+    "RUNNING_EVENT": "Aktueller WK",
+    "RUNNING_HEAT_STATE": "Lauf Status",
+    "TITLE": "Live Timing Steuerung"
+  }
+}
