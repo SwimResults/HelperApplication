@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: 23
 
+      - name: NPM MAKE
+        run: npm run make-win32
+
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
