@@ -4,6 +4,9 @@
 
 This tool can be used by meeting organisers and result services to interact with their meeting in swimresults and provide data.
 
+![image](https://github.com/user-attachments/assets/13c5fbe9-b6d9-4037-9507-238536c92bc8)
+
+
 ## Features
 
 ### Implemented
