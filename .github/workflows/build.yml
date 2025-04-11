@@ -33,3 +33,12 @@ jobs:
         with:
           name: electron-forge-win32-build
           path: out/make
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            out/make/**/*.exe
+            out/make/**/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
