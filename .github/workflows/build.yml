@@ -31,7 +31,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: electron-forge-win32-build
+          name: swim-results-helper-application-win32-build
           path: out/make
 
       - name: Create GitHub Release
