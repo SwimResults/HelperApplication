@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: 23
 
+      - name: Install electron-forge
+        run: npm install --global --unsafe-perm electron-forge
+
       - name: NPM MAKE
         run: npm run make-win32
 
