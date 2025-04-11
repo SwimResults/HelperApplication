@@ -4,6 +4,16 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
+    /*osxSign: {
+      identity: process.env.APPLE_SIGN_ID,
+    },
+    osxNotarize: {
+      tool: 'notarytool',
+      identity: process.env.APPLE_SIGN_ID,
+      appleApiKey: process.env.APPLE_API_KEY,
+      appleApiKeyId: process.env.APPLE_API_KEY_ID,
+      appleApiIssuer: process.env.APPLE_API_ISSUER
+    }*/
   },
   rebuildConfig: {},
   makers: [

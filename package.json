@@ -2,6 +2,8 @@
   "name": "swim-results-helper-application",
   "version": "0.0.0",
   "main": "main.js",
+  "description": "SwimResultsHelperApplication is a desktop application for Alge Livetiming with SwimResults.",
+  "author": "Konrad Weiß",
   "scripts": {
     "ng": "ng",
     "start": "electron-forge start",
@@ -11,7 +13,8 @@
     "electron": "electron .",
     "electron-build": "ng build --base-href ./ && electron .",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "make-win32": "electron-forge make --platform win32"
   },
   "private": true,
   "dependencies": {
