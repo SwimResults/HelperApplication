@@ -2,7 +2,49 @@
   "LIVETIMING_CONTROLS": {
     "RUNNING_HEAT": "Aktueller Lauf",
     "RUNNING_EVENT": "Aktueller WK",
-    "RUNNING_HEAT_STATE": "Lauf Status",
+    "RUNNING_HEAT_STATE": "Aktueller Laufstatus",
     "TITLE": "Live Timing Steuerung"
+  },
+  "SETTINGS": {
+    "LIVE_TIMING": {
+      "TITLE": "Live Timing Einstellungen",
+      "ADDRESS": "Adresse",
+      "PASSWORD": "Passwort",
+      "SERVER": "Server",
+      "PORT": "Port",
+      "SAVE_BUTTON": "Speichern"
+    },
+    "LANGUAGE": {
+      "TITLE": "Sprache",
+      "ENGLISH": "EN - Englisch",
+      "GERMAN": "DE - Deutsch"
+    },
+    "LOG": {
+      "TOGGLE_BUTTON": "Log umschalten"
+    }
+  },
+  "LIVE_TIMING": {
+    "STATUS": {
+      "EVENT": "WK",
+      "HEAT": "Lauf"
+    },
+    "TABLE_HEADER": {
+      "NAME": "Name",
+      "TEAM": "Verein",
+      "METERS": "Meter",
+      "LAP": "Runde",
+      "TIME": "Zeit"
+    }
+  },
+  "STATE": {
+    "RUNNING": "Läuft",
+    "NOT_RUNNING": "Nicht aktiv",
+    "READY": "Bereit",
+    "CONNECTED": "Verbunden",
+    "DISCONNECTED": "Getrennt",
+    "STOPPED": "Gestoppt",
+    "ERROR": "Fehler",
+    "ACTIVE": "Aktiv",
+    "INACTIVE": "Inaktiv"
   }
 }

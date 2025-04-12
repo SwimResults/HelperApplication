@@ -9,7 +9,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class ImportService {
   private configSubject = new BehaviorSubject<ImportConfig>({
-    apiUrl: "https://api-dev.swimresults.de/",
+    apiUrl: "https://api.swimresults.de/",
     password: ""
   } as ImportConfig);
   public config = this.configSubject.asObservable();

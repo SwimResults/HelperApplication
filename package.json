@@ -1,6 +1,6 @@
 {
   "name": "swim-results-helper-application",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "main": "main.js",
   "description": "SwimResultsHelperApplication is a desktop application for Alge Livetiming with SwimResults.",
   "author": "Konrad Weiß",

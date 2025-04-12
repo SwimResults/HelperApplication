@@ -10,9 +10,9 @@
   <div class="form-field">
     <label for="running_heat_state">{{"LIVETIMING_CONTROLS.RUNNING_HEAT_STATE" | translate}}:</label>
     <select id="running_heat_state" [(ngModel)]="state">
-      <option value="NOT_RUNNING">NOT_RUNNING</option>
-      <option value="READY">READY</option>
-      <option value="RUNNING">RUNNING</option>
+      <option value="NOT_RUNNING">{{'STATE.NOT_RUNNING' | translate}}</option>
+      <option value="READY">{{'STATE.READY' | translate}}</option>
+      <option value="RUNNING">{{'STATE.RUNNING' | translate}}</option>
     </select>
   </div>
 
@@ -22,7 +22,7 @@
     <b>Alge:</b>
     <button [disabled]="udpActive" (click)="startUdp()">Start</button>
     <button [disabled]="!udpActive || liveTimingActive" (click)="stopUdp()">Stop</button>
-    <span class="status-box {{udpActive ? 'success' : 'error'}}">{{udpActive ? "RUNNING" : "STOPPED"}}</span>
+    <span class="status-box {{udpActive ? 'success' : 'error'}}">{{"STATE." + (udpActive ? "RUNNING" : "STOPPED") | translate}}</span>
   </div>
 
   <br>
@@ -31,21 +31,21 @@
     <b>Live Timing:</b>
     <button [disabled]="!udpActive || liveTimingActive" (click)="startLiveTiming()">Start</button>
     <button [disabled]="!liveTimingActive" (click)="stopLiveTiming()">Stop</button>
-    <span class="status-box {{liveTimingActive ? 'success' : 'error'}}">{{liveTimingActive ? "RUNNING" : "STOPPED"}}</span>
+    <span class="status-box {{liveTimingActive ? 'success' : 'error'}}">{{"STATE." + (liveTimingActive ? "RUNNING" : "STOPPED") | translate}}</span>
   </div>
 </sr-group-box>
 
-<sr-group-box boxTitle="Live Timing Settings">
+<sr-group-box boxTitle="{{'SETTINGS.LIVE_TIMING.TITLE' | translate}}">
 
   <b>UDP</b>
 
   <div class="form-field">
-    <label for="udp_port">Port:</label>
+    <label for="udp_port">{{'SETTINGS.LIVE_TIMING.PORT' | translate}}:</label>
     <input [disabled]="udpActive" id="udp_port" type="number" [(ngModel)]="udpPort">
   </div>
 
   <div class="form-field">
-    <label for="udp_address">Address:</label>
+    <label for="udp_address">{{'SETTINGS.LIVE_TIMING.ADDRESS' | translate}}:</label>
     <input [disabled]="udpActive" id="udp_address" type="text" [(ngModel)]="udpAddress">
   </div>
 
@@ -54,35 +54,35 @@
   <b>SwimResults</b>
 
   <div class="form-field">
-    <label for="sr_server">Server:</label>
+    <label for="sr_server">{{'SETTINGS.LIVE_TIMING.SERVER' | translate}}:</label>
     <input [disabled]="liveTimingActive" id="sr_server" type="text" [(ngModel)]="importConfig.apiUrl">
   </div>
 
   <div class="form-field">
-    <label for="sr_password">Password:</label>
+    <label for="sr_password">{{'SETTINGS.LIVE_TIMING.PASSWORD' | translate}}:</label>
     <input [disabled]="liveTimingActive" id="sr_password" type="password" [(ngModel)]="importConfig.password">
   </div>
-  <button [disabled]="liveTimingActive" class="btn-right" (click)="saveConfig()">Save</button>
+  <button [disabled]="liveTimingActive" class="btn-right" (click)="saveConfig()">{{'SETTINGS.LIVE_TIMING.SAVE_BUTTON' | translate}}</button>
 </sr-group-box>
 
 <sr-group-box boxTitle="Live Timing">
   <div class="live-status">
-    <span>Event {{currentHeat.event}} - {{currentHeat.style}}</span>
-    <span>Heat {{currentHeat.heat}}</span>
+    <span>{{'LIVE_TIMING.STATUS.EVENT' | translate}} {{currentHeat.event}} - {{currentHeat.style}}</span>
+    <span>{{'LIVE_TIMING.STATUS.HEAT' | translate}} {{currentHeat.heat}}</span>
     <div>
-      <span class="status-box {{getClassForState(state)}}">{{state}}</span>
+      <span class="status-box {{getClassForState(state)}}">{{"STATE." + state | translate}}</span>
       <span class="status-box">{{currentHeat.runningTime | algeTime}}</span>
     </div>
   </div>
   <table>
     <tr>
       <th>&nbsp;</th>
-      <th>Name</th>
-      <th>Team</th>
-      <th>Meters</th>
-      <th>Lap</th>
+      <th>{{'LIVE_TIMING.TABLE_HEADER.NAME' | translate}}</th>
+      <th>{{'LIVE_TIMING.TABLE_HEADER.TEAM' | translate}}</th>
+      <th>{{'LIVE_TIMING.TABLE_HEADER.METERS' | translate}}</th>
+      <th>{{'LIVE_TIMING.TABLE_HEADER.LAP' | translate}}</th>
       @for (meter of getAvailableMeters(); track meter) {
-        <th>Time {{meter}}m</th>
+        <th>{{'LIVE_TIMING.TABLE_HEADER.TIME' | translate}} {{meter}}m</th>
       }
     </tr>
     @for (competitor of getCompetitorsSorted(); track competitor) {
@@ -107,17 +107,26 @@
 
   <div class="connection-status">
     <span>ALGE:</span>
-    <span class="status-box {{getClassForConnectionState(algeState)}}">{{algeState}}</span>
+    <span class="status-box {{getClassForConnectionState(algeState)}}">{{"STATE." + algeState | translate}}</span>
   </div>
   <div class="connection-status">
     <span>SwimResults:</span>
-    <span class="status-box {{getClassForConnectionState(srState)}}">{{srState}}</span>
+    <span class="status-box {{getClassForConnectionState(srState)}}">{{"STATE." + srState | translate}}</span>
   </div>
 </sr-group-box>
 
 <div>
+  <details class="language-settings">
+    <summary>{{'SETTINGS.LANGUAGE.TITLE' | translate}}</summary>
+
+    <button (click)="changeLanguage('de')">{{'SETTINGS.LANGUAGE.GERMAN' | translate}}</button>
+    <button (click)="changeLanguage('en')">{{'SETTINGS.LANGUAGE.ENGLISH' | translate}}</button>
+  </details>
   <details>
     <summary>Log</summary>
+    <button (click)="toggleLog()">{{'SETTINGS.LOG.TOGGLE_BUTTON' | translate}}</button>
+    <br>
+    <div class="status-box">{{"STATE." + (collectLog ? "ACTIVE" : "INACTIVE") | translate}}</div>
     <ul>
 
       @for (message of messages; track message) {

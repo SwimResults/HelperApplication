@@ -10,7 +10,7 @@ import {ConnectionState, State} from './core/model/state.model';
 import {AlgeTimePipe} from './core/pipe/alge-time.pipe';
 import {ImportService} from './core/service/import.service';
 import {ImportConfig} from './core/model/import-config.model';
-import {TranslatePipe} from '@ngx-translate/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -47,13 +47,17 @@ export class AppComponent {
   udpPort: number = 26;
   udpAddress: string = "0.0.0.0";
 
+  collectLog: boolean = false;
+
   constructor(
     private electronService: ElectronService,
     private algeService: AlgeService,
-    private importService: ImportService
+    private importService: ImportService,
+    private translateService: TranslateService
   ) {
     this.messageSubscription = this.algeService.message.subscribe(msg => {
-      this.messages = [msg, ...this.messages];
+      if (this.collectLog)
+        this.messages = [msg, ...this.messages];
     })
 
     this.udpActiveSubscription = this.algeService.udpActive.subscribe(state => {
@@ -156,5 +160,13 @@ export class AppComponent {
     return Array.from(this.currentHeat.competitors.values()).sort((a, b) => {
       return a.lane - b.lane;
     });
+  }
+
+  changeLanguage(lang: string) {
+    this.translateService.use(lang);
+  }
+
+  toggleLog() {
+    this.collectLog = !this.collectLog;
   }
 }

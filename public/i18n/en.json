@@ -4,5 +4,47 @@
     "RUNNING_EVENT": "Running Event",
     "RUNNING_HEAT_STATE": "Running Heat State",
     "TITLE": "Live Timing Controls"
+  },
+  "SETTINGS": {
+    "LIVE_TIMING": {
+      "TITLE": "Live Timing Settings",
+      "ADDRESS": "Address",
+      "PASSWORD": "Password",
+      "SERVER": "Server",
+      "PORT": "Port",
+      "SAVE_BUTTON": "Save"
+    },
+    "LANGUAGE": {
+      "TITLE": "Language",
+      "ENGLISH": "EN - English",
+      "GERMAN": "DE - German"
+    },
+    "LOG": {
+      "TOGGLE_BUTTON": "Toggle Log"
+    }
+  },
+  "LIVE_TIMING": {
+    "STATUS": {
+      "EVENT": "Event",
+      "HEAT": "Heat"
+    },
+    "TABLE_HEADER": {
+      "NAME": "Name",
+      "TEAM": "Team",
+      "METERS": "Meters",
+      "LAP": "Lap",
+      "TIME": "Time"
+    }
+  },
+  "STATE": {
+    "RUNNING": "Running",
+    "NOT_RUNNING": "Not Running",
+    "READY": "Ready",
+    "CONNECTED": "Connected",
+    "DISCONNECTED": "Disconnected",
+    "STOPPED": "Stopped",
+    "ERROR": "Error",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive"
   }
 }

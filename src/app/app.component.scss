@@ -83,8 +83,8 @@ td, th {
 }
 
 .btn-right {
-  width: 50px;
-  margin-left: calc(100% - 50px);
+  width: 80px;
+  margin-left: calc(100% - 80px);
 }
 
 .connection-status {
@@ -92,5 +92,15 @@ td, th {
   grid-template-columns: 94px auto 1fr;
   &::after {
     content: ''
+  }
+}
+
+.language-settings {
+  button {
+    margin-left: 4px;
+  }
+
+  button:first-child {
+    margin-left: 0;
   }
 }

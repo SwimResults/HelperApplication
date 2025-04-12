@@ -5,13 +5,12 @@ function createWindow() {
   console.log('createWindow');
 
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 900,
+    height: 650,
     icon: `file://${__dirname}/dist/assets/logo.png`,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
-      preload: path.join(__dirname, 'electron/preload.js')
+      contextIsolation: false
     }
   })
 
