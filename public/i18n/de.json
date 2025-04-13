@@ -45,6 +45,7 @@
     "STOPPED": "Gestoppt",
     "ERROR": "Fehler",
     "ACTIVE": "Aktiv",
-    "INACTIVE": "Inaktiv"
+    "INACTIVE": "Inaktiv",
+    "OK": "OK"
   }
 }
