@@ -65,7 +65,7 @@ export class ElectronService {
   startUdpListener(port: number, address: string) {
     this.dgram = (window as any).require('node:dgram')
 
-    this.socket = this.dgram.createSocket({ type: 'udp4', reuseAddr: true, reusePort: true });
+    this.socket = this.dgram.createSocket({ type: 'udp4', reuseAddr: true, reusePort: false });
     let socket = this.socket;
     this.socket.on('message', (msg, info) => {
       this.processMessage(msg.toString());
