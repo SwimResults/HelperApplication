@@ -112,7 +112,14 @@ export class AlgeService {
               c.last_name = fields[3];
               break
             case "TeamName":
-              c.team = fields[3];
+              if (fields[3].length > 0) {
+                c.team = fields[3];
+              }
+              break
+            case "ClubName":
+              if (fields[3].length > 0) {
+                c.team = fields[3];
+              }
               break
           }
         break;
