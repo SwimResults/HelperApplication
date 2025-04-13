@@ -1,5 +1,6 @@
 const {app, BrowserWindow} = require('electron/main')
 const path = require('node:path')
+const dgram = require('node:dgram')
 
 function createWindow() {
   console.log('createWindow');
@@ -15,6 +16,10 @@ function createWindow() {
   })
 
   win.loadURL(`file://${__dirname}/dist/swim-results-helper-application/index.html`)
+
+
+  //let socket = dgram.createSocket({ type: 'udp4', reuseAddr: true, reusePort: true });
+  //socket.bind(26);
 
   //win.webContents.openDevTools()
 }
